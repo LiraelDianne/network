@@ -1,0 +1,53 @@
+<div class="wrapper">
+	<div class="nav">
+		<a href="/users">All Users</a>
+		<a href="/logout">Logout</a>
+	</div>
+	<h1>Hi <%= @user.name %>!</h1>
+	<h3>Here is your profile description:</h3>
+	<form action='/users/<%=@user.id%>' method='post'>
+		<% if flash[:errors] %>
+			<% flash[:errors].each do |message| %>
+				<p class="error"><%=message%></p>
+			<% end %>
+		<% end %>
+		<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+		<input type="hidden" name="_method" value="put">
+		<textarea name="user[description]"><%= @user.description %></textarea>
+		<button type="submit">Update Description</button>
+	</form>
+	<div class="network">
+		<h2>Your Professional Network:</h2>
+		<div class="overflow">
+			<% @user.networks.each  do |n| %>
+				<p>
+					<a href="/users/<%=n.friend.id%>"><%=n.friend.name%></a>
+					<a href="/networks/<%=n.id%>" data-method='delete'>Remove from network</a>
+				</p>
+			<% end %>
+		</div>
+	</div>
+	<div class="invites">
+		<h2>Invitations:</h2>
+		<p>The following people asked you to be in their network:</p>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+			<% @user.invites.each  do |i| %>
+				<tr>
+					<th><a href="/users/<%=i.inviter.id%>"><%=i.inviter.name%></a></th>
+					<th>
+						<form action='/networks' method="post">
+							<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+							<input type="hidden" name="invite_id" value="<%= i.id %>">
+							<button type="submit" class="link_style">Accept Invite</button>
+						</form>
+						<a href= "invites/<%= i.id %>" data-method='delete'>Ignore</a>
+					</th>
+				</tr> 
+			<% end %>
+		</table>
+	</div>
+</div>

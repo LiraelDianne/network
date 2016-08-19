@@ -1,0 +1,40 @@
+<div class="wrapper">	
+<h1>Welcome!</h1>
+	<div class="inline">
+		<h3>Register:</h3>
+		<form action="/users" method='post'>
+			<% if flash[:errors] %>
+				<% flash[:errors].each do |message| %>
+					<p class="error"><%=message%></p>
+				<% end %>
+			<% end %>
+			<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+			<label>Name:
+			<input name='user[name]' type="text"></label>
+			<label>Email: 
+			<input name="user[email]" type="text"></label>
+			<label>Password:
+			<input type="password" name="user[password]"></label>
+			<p>(Password must be at least 8 characters)</p>
+			<label>Confirm Password:
+			<input type="password" name="user[password_confirmation]"></label>
+			<label>Description:</label>
+			<textarea name="user[description]"></textarea>
+			<button type="submit">Register</button>
+		</form>
+	</div>
+	<div class="inline">
+		<h3>Login:</h3>
+		<form action="/login" method='post'>
+			<% if flash[:login_error] %>
+				<p class="error"><%=flash[:login_error]%></p>
+			<% end %>
+			<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+			<label>Email: </label>
+			<input name="user[email]" type="text"></input>
+			<label>Password:</label>
+			<input type="password" name="user[password]"></input>
+			<button type="submit">Log In</button>
+		</form>
+	</div>
+</div>

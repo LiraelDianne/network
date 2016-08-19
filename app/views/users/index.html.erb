@@ -1,0 +1,23 @@
+<div class="wrapper">
+	<div class="nav">
+		<a href="/professional_profile">My Profile</a>
+		<a href="/logout">Logout</a>
+	</div>
+	<h2>Users you may want to connect with:</h2>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Action</th>
+		</tr>
+		<% @users.each do |u| %>
+			<tr>
+				<td><a href="/users/<%= u.id %>"><%= u.name %></a></td>
+				<td><form action='/invites' method="post">
+					<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+					<input type="hidden" name="invited_id" value="<%=u.id%>">
+					<button type="submit">Connect</button>
+				</form></td>
+			</tr>
+		<% end %>
+	</table>
+</div>
